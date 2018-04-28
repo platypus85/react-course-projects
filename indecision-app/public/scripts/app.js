@@ -1,18 +1,39 @@
 'use strict';
 
-var square = function square(x) {
-    return x * x;
+var add = function add(a, b) {
+    console.log(arguments); //No more allowed in ES6
+    return a + b;
 };
-console.log(square(8));
+console.log(add(55, 1));
 
-// const squareArrow = (x) => { return x * x; };
-
-var squareArrow = function squareArrow(x) {
-    return x * x;
+var addArrow = function addArrow(a, b) {
+    return a + b;
 };
-console.log(squareArrow(10));
 
-var getFirstName = function getFirstName(fullName) {
-    return fullName.split(' ')[0];
+//this keyword = no longer bound in Arrow function.
+
+var user = {
+    name: 'John',
+    cities: ['Sydney', 'Perth', 'Darwin'],
+    printPlacesLived: function printPlacesLived() {
+        var _this = this;
+
+        return this.cities.map(function (city) {
+            return _this.name + ' has lived in ' + city;
+        });
+    }
 };
-console.log(getFirstName('John Doe'));
+console.log(user.printPlacesLived());
+
+var multiplier = {
+    numbers: [10, 20, 30],
+    multiplyBy: 3,
+    multiply: function multiply() {
+        var _this2 = this;
+
+        return this.numbers.map(function (number) {
+            return number * _this2.multiplyBy;
+        });
+    }
+};
+console.log(multiplier.multiply());
