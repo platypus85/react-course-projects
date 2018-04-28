@@ -36,3 +36,6 @@ Use command `yarn add babel-preset-env babel-preset-react`
 Example `app.js`.   
 Use the command `babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch` specifying correcly the paths of the file to be compiled and where to be compiled.
 
+### To install node_modules
+Use the command `yarn install`
+
