@@ -2,6 +2,8 @@
 
 var appRoot = document.getElementById('app');
 
+var numbers = [55, 101, 1000];
+
 var app = {
     title: 'Indecision App',
     subTitle: 'Put your life in the hands of a computer',
@@ -55,16 +57,13 @@ var render = function render() {
         React.createElement(
             'ol',
             null,
-            React.createElement(
-                'li',
-                null,
-                'Item One'
-            ),
-            React.createElement(
-                'li',
-                null,
-                'Item Two'
-            )
+            app.options.map(function (option) {
+                return React.createElement(
+                    'li',
+                    { key: option },
+                    option
+                );
+            })
         ),
         React.createElement(
             'form',

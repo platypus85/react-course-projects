@@ -1,5 +1,7 @@
 const appRoot = document.getElementById('app');
 
+const numbers = [55,101,1000];
+
 const app = {
     title: 'Indecision App',
     subTitle: 'Put your life in the hands of a computer',
@@ -34,8 +36,11 @@ const render = () => {
             <p>{app.options.length}</p>
             <button onClick={removeAll}>Remove All</button>
             <ol>
-                <li>Item One</li>
-                <li>Item Two</li>
+            {
+                app.options.map((option) =>{
+                    return <li key={option}>{option}</li>;
+                })
+             }
             </ol>
             <form onSubmit={onFormSubmit}>
                 <input tyep="text" name="option"/>
