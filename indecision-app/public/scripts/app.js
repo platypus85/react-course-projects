@@ -2,8 +2,6 @@
 
 var appRoot = document.getElementById('app');
 
-var numbers = [55, 101, 1000];
-
 var app = {
     title: 'Indecision App',
     subTitle: 'Put your life in the hands of a computer',
@@ -20,7 +18,13 @@ var onFormSubmit = function onFormSubmit(e) {
     render();
 };
 
-var removeAll = function removeAll(e) {
+var onMakeDecision = function onMakeDecision() {
+    var randomNum = Math.floor(Math.random() * app.options.length);
+    var option = app.options[randomNum];
+    alert(option);
+};
+
+var onRemoveAll = function onRemoveAll(e) {
     app.options = [];
     render();
 };
@@ -39,19 +43,19 @@ var render = function render() {
             null,
             app.subTitle
         ),
-        app.options && app.options.length > 0 ? React.createElement(
-            'p',
-            null,
-            'Here are your options'
-        ) : 'No options',
         React.createElement(
             'p',
             null,
-            app.options.length
+            app.options && app.options.length > 0 ? 'Here are your options' : 'No options'
         ),
         React.createElement(
             'button',
-            { onClick: removeAll },
+            { disabled: app.options.length === 0, onClick: onMakeDecision },
+            'What should I do?'
+        ),
+        React.createElement(
+            'button',
+            { onClick: onRemoveAll },
             'Remove All'
         ),
         React.createElement(
