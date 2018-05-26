@@ -5,17 +5,20 @@ class IndecisionApp extends React.Component{
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);
         this.state = {
             options:  props.options
         }
     }
 
     handleDeleteOptions(){
-        this.setState(()=>{
-            return {
-                options: []
-            }
-        })
+        this.setState(()=>({options: []}));
+    }
+
+    handleDeleteOption(optionToRemove){
+        this.setState((prevState)=>({
+            options: prevState.options.filter((option) => optionToRemove !== option)
+        }));
     }
 
     handlePick(){
@@ -51,6 +54,7 @@ class IndecisionApp extends React.Component{
                 <Options 
                     options={this.state.options}
                     handleDeleteOptions={this.handleDeleteOptions}
+                    handleDeleteOption={this.handleDeleteOption}
                 />
                 <AddOptions handleAddOption={this.handleAddOption}/>
             </div>
@@ -92,6 +96,11 @@ const Option = (props) =>{
     return (
         <div>
             <p>{props.option}</p>
+            <button 
+                onClick={(e) =>{
+                    props.handleDeleteOption(props.option)
+                }}
+            >Remove</button>
         </div>
     );
 };
@@ -101,7 +110,12 @@ const Options = (props) =>{
         <div>
             <button onClick={props.handleDeleteOptions}>Remove All</button>
             {
-                props.options.map((option) => <Option key={option} option={option}/>)
+                props.options.map((option) => (
+                <Option 
+                    key={option} 
+                    option={option}
+                    handleDeleteOption={props.handleDeleteOption}/>
+            ))
             }
         </div>
     );
@@ -120,9 +134,7 @@ class AddOptions extends React.Component{
         e.preventDefault();
         const option = e.target.elements.option.value.trim();
         const error = this.props.handleAddOption(option);
-        this.setState(()=>{
-            return { error }
-        });
+        this.setState(()=>({error}));
     };
 
     render(){
