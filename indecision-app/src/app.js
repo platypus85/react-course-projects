@@ -10,14 +10,26 @@ class IndecisionApp extends React.Component{
             options:  props.options
         }
     }
-
     componentDidMount(){
-        console.log('componentDidMount');
+        try{
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+            if(options){
+                this.setState(() => ({options}));
+            }
+        }catch(e){
+            //Do nothing at all
+        }
     }
 
-    componentDidUpdate(){
-        console.log('componentDidUpdate');
+    componentDidUpdate(prevProps, prevState){
+        if((prevState.options && this.state.options) &&
+         (prevState.options.length !== this.state.options.length)){
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+        }
     }
+    
 
     componentWillUnmount(){
         console.log('componentWillUnmount');
@@ -121,6 +133,7 @@ const Options = (props) =>{
     return (
         <div>
             <button onClick={props.handleDeleteOptions}>Remove All</button>
+            {props.options.length === 0 && <p>Please, add an option to get started!</p>}
             {
                 props.options.map((option) => (
                 <Option 
@@ -147,6 +160,9 @@ class AddOptions extends React.Component{
         const option = e.target.elements.option.value.trim();
         const error = this.props.handleAddOption(option);
         this.setState(()=>({error}));
+        if(!error){
+            e.target.elements.option.value = '';
+        }
     };
 
     render(){
@@ -161,14 +177,5 @@ class AddOptions extends React.Component{
         );
     }
 }
-
-// const User = (props) =>{
-//     return (
-//         <div>
-//             <p>Name: {props.name}</p>
-//             <p>Age: {props.age}</p>
-//         </div>
-//     );
-// };
 
 ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
